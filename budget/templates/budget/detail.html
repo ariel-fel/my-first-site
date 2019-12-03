@@ -1,0 +1,7 @@
+<h1>{{ budget_entry.description }}</h1>
+ 
+<form action="{% url 'budget:make_expanse' 1 %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit">
+</form>

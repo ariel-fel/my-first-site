@@ -1,0 +1,10 @@
+<h1>{{ 'Select budget entry' }}</h1>
+{% if budget_list %}
+    <ul>
+    {% for entry in budget_list %}
+        <li><a href="{% url 'budget:detail' entry.id %}">{{ entry.description }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No budget entries are available.</p>
+{% endif %}

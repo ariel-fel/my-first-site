@@ -1,0 +1,21 @@
+<h1>{{ budget_entry.description }}</h1>
+
+<a href="{% url 'budget:index' %}">Done</a>
+
+<h2>Expanses on this budget entry</h2>
+
+<table class="table table-bordered" style="width: 100%;">
+    <tr>
+        <th>Description</th>
+        <th>Amount</th>
+        <th>When</th>
+    </tr>
+    {% for expanse in budget_entry.expense_set.all|dictsortreversed:"expense_date" %}
+    <tr> 
+        <td>{{ expanse.description }}</td>
+        <td>{{ expanse.amount }}</td>
+        <td>{{ expanse.expense_date }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
