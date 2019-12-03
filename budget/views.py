@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.views import generic
 
 from .models import BudgetEntry
-from .forms import ExpanseForm
+from .forms import ExpanseForm2
 
 class IndexView(generic.ListView):
     template_name = 'budget/index.html'
@@ -18,10 +18,20 @@ class IndexView(generic.ListView):
 def detail(request, pk):
     budget_entry = get_object_or_404(BudgetEntry,pk=pk)
     #return render(request, 'budget/detail.html', {'budget_entry': budget_entry})
-    form = ExpanseForm(request.POST)
+    if request.method == "POST":
+        form = ExpanseForm2(request.POST)
+    else:
+        form = ExpanseForm2()
     # check whether it's valid:
     if form.is_valid():
-        return HttpResponse('/thanks/')
+        expanse = form.save(commit=False)
+    
+        budget_entry.expense_set.create(
+            description = expanse.description,
+            expense_date = timezone.now(),
+            amount = expanse.amount)
+
+        return HttpResponseRedirect(reverse('budget:expanse', args=(budget_entry.id,)))
 
     context = {'budget_entry': budget_entry, 'form': form}
     return render(request, 'budget/detail.html', context)
@@ -30,15 +40,3 @@ def expanse(request, entry_id):
     budget_entry = get_object_or_404(BudgetEntry,pk=entry_id)
     context = {'budget_entry': budget_entry}
     return render(request, 'budget/expanse_done.html', context)
-    
-def make_expanse(request, entry_id):
-    budget_entry = get_object_or_404(BudgetEntry,pk=entry_id)
-    expanse_amount = request.POST['expanse_amount']
-    expanse_description = request.POST['expanse_description']
-    
-    budget_entry.expense_set.create(
-        description = expanse_description,
-        expense_date = timezone.now(),
-        amount = expanse_amount)
-
-    return HttpResponseRedirect(reverse('budget:expanse', args=(budget_entry.id,)))

@@ -1,7 +1,11 @@
-<h1>{{ budget_entry.description }}</h1>
+{% extends 'budget/base.html' %}
+
+{% block content %}
+    <h1>{{ budget_entry.description }}</h1>
  
-<form action="{% url 'budget:make_expanse' 1 %}" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Submit">
-</form>
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        {{ form.as_p  }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+{% endblock %}
