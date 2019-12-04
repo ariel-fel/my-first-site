@@ -22,6 +22,4 @@ class Expense(models.Model):
     amount = models.IntegerField(default=0)
     def __str__(self):
             return self.description
-    def is_violating_budget(self):
-        return self.amount > 0
 

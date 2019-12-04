@@ -6,18 +6,23 @@
     <a href="{% url 'budget:index' %}">Done</a>
 
     <h2>Expanses on this budget entry</h2>
-
-    <table class="table table-bordered" style="width: 100%;">
-        <tr>
-            <th>Month</th>
-            <th>Amount</th>
-        </tr>
-        {% for expanse in expanse_report %}
-        <tr> 
-            <td>{{ expanse.month }}</td>
-            <td>{{ expanse.amount }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    {% if expanse_report %}
+        <table class="table table-bordered" style="width: 100%;">
+            <tr>
+                <th>Month</th>
+                <th>Amount</th>
+                <th>Within Budget</th>
+            </tr>
+            {% for expanse in expanse_report %}
+            <tr> 
+                <td>{{ expanse.month }}</td>
+                <td>{{ expanse.amount }}</td>
+                <td>{{ expanse.within_budget }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>You didn't spend on this yet </p>
+    {% endif %}
     <p></p><a href="{% url 'budget:index' %}"></a>Back</p>
 {% endblock %}
