@@ -6,7 +6,7 @@
     {% if budget_list %}
         <ul>
         {% for entry in budget_list %}
-            <li><a href="{% url 'budget:detail' entry.id %}">{{ entry.description }}</a></li>
+            <li><b>{{ entry.description }} : </b><a href="{% url 'budget:detail' entry.id %}">  spend  </a><a>,</a><a href="{% url 'budget:expanse' entry.id %}">  details</a></li>
         {% endfor %}
         </ul>
     {% else %}

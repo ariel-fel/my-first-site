@@ -44,7 +44,7 @@ def detail(request, pk):
 def expanse(request, pk):
     budget_entry = get_object_or_404(BudgetEntry,pk=pk)
     context = {'budget_entry': budget_entry}
-    return render(request, 'budget/expanse_done.html', context)
+    return render(request, 'budget/expanses.html', context)
 
 def status(request, pk):
     budget_entry = get_object_or_404(BudgetEntry,pk=pk)
