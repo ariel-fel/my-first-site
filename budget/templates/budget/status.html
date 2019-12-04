@@ -1,0 +1,23 @@
+{% extends 'budget/base.html' %}
+
+{% block content %}
+    <h1>{{ budget_entry.description }}</h1>
+
+    <a href="{% url 'budget:index' %}">Done</a>
+
+    <h2>Expanses on this budget entry</h2>
+
+    <table class="table table-bordered" style="width: 100%;">
+        <tr>
+            <th>Month</th>
+            <th>Amount</th>
+        </tr>
+        {% for expanse in expanse_report %}
+        <tr> 
+            <td>{{ expanse.month }}</td>
+            <td>{{ expanse.amount }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <p></p><a href="{% url 'budget:index' %}"></a>Back</p>
+{% endblock %}

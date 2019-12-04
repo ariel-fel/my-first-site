@@ -24,3 +24,4 @@ class Expense(models.Model):
             return self.description
     def is_violating_budget(self):
         return self.amount > 0
+

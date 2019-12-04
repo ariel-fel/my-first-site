@@ -36,7 +36,21 @@ def detail(request, pk):
     context = {'budget_entry': budget_entry, 'form': form}
     return render(request, 'budget/detail.html', context)
 
-def expanse(request, entry_id):
-    budget_entry = get_object_or_404(BudgetEntry,pk=entry_id)
+def expanse(request, pk):
+    budget_entry = get_object_or_404(BudgetEntry,pk=pk)
     context = {'budget_entry': budget_entry}
     return render(request, 'budget/expanse_done.html', context)
+
+class ExpanseReport():
+    def __init__(self, month, amount):
+        self.month = month
+        self.amount = amount
+
+def status(request, pk):
+    budget_entry = get_object_or_404(BudgetEntry,pk=pk)
+
+    expanse_report = []
+    expanse_report.append(ExpanseReport(1,3))
+
+    context = {'budget_entry': budget_entry, 'expanse_report':expanse_report }
+    return render(request, 'budget/status.html', context)

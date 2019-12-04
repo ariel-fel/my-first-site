@@ -1,6 +1,7 @@
 {% extends 'budget/base.html' %}
 
 {% block content %}
+    <h2><a href="{% url 'budget:status' 1 %}"></ahref>>{{ 'Status' }}</a></h2>
     <h2><a>{{ 'Select budget entry' }}</a></h2>
     {% if budget_list %}
         <ul>
