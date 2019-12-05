@@ -29,7 +29,7 @@ def create_month_by_month_report(budget_entry):
     for i in range(6):
         month_sum = get_expanse_by_month(budget_entry, d)
         
-        expanse_report.append(ExpanseReport(d.month,month_sum, month_sum <= budget_entry.amount))
+        expanse_report.append(ExpanseReport(d.strftime("%b %y") ,month_sum, month_sum <= budget_entry.amount))
 
         d = reduce_month(d)
 

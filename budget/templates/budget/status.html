@@ -2,9 +2,35 @@
 
 {% block content %}
     <h1>{{ budget_entry.description }}</h1>
-
-    <a href="{% url 'budget:index' %}">Done</a>
-
+    <div id="container"></div>
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+    <script>
+        Highcharts.chart('container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Monthly spending'
+            },
+            xAxis: {
+                categories: [
+                {% for expanse in expanse_report %}'{{ expanse.month }}'{% if not forloop.last %}, {% endif %}{% endfor %}
+                ]
+            },
+            series: [{
+                name: 'Spent',
+                data: [
+                    {% for expanse in expanse_report %}{{ expanse.amount }}{% if not forloop.last %}, {% endif %}{% endfor %}
+                    ]
+            }, {
+                name: 'Budget',
+                data: [
+                    {% for expanse in expanse_report %}{{ budget_entry.amount }}{% if not forloop.last %}, {% endif %}{% endfor %}
+                    ]
+            }]
+        });
+    </script>
+<!--
     <h2>Expanses on this budget entry</h2>
     {% if expanse_report %}
         <table class="table table-bordered" style="width: 100%;">
@@ -24,5 +50,6 @@
     {% else %}
         <p>You didn't spend on this yet </p>
     {% endif %}
-    <p></p><a href="{% url 'budget:index' %}"></a>Back</p>
+    -->
+    <p></p><a href="{% url 'budget:index' %}">Back</a></p>
 {% endblock %}

@@ -11,4 +11,38 @@
     {% else %}
         <p>No budget entries are available.</p>
     {% endif %}
+    <div id="container"></div>
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+    <script>
+        Highcharts.chart('container', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Budget Pie'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                }
+            }
+        },
+        series: [{
+            name: 'Entry',
+            data: [
+                {% for entry in budget_list %}{name: '{{ entry.description }}', y: {{ entry.amount }}}{% if not forloop.last %}, {% endif %}{% endfor %}
+                ]
+        }]
+     });
+     </script>
 {% endblock %}
