@@ -5,12 +5,16 @@ from django.urls import reverse
 from django.views import generic
 
 from .models import BudgetEntry, Expense
-from .forms import ExpanseForm
+from .forms import ExpanseForm, ExpanseFormDate
 import datetime
 from budget.date_functions import add_month, reduce_month
 from budget.expanse_reports import get_expanse_by_month, create_month_by_month_report
 
-class IndexView(generic.ListView):
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+
+class IndexView(LoginRequiredMixin, generic.ListView):
     template_name = 'budget/index.html'
     context_object_name = 'budget_list'
 
@@ -18,7 +22,30 @@ class IndexView(generic.ListView):
         """Return the last five published questions."""
         return BudgetEntry.objects.order_by('-amount')
 
+@login_required
+def edit_expanse(request, pk):
+    expense_entry = get_object_or_404(Expense,pk=pk)
+    prefill = {'description':expense_entry.description, 'amount':expense_entry.amount, 'expense_date': expense_entry.expense_date}
+    if request.method == "POST":
+        form = ExpanseFormDate(request.POST,initial = prefill)
+    else:
+        form = ExpanseFormDate(initial = prefill)
+    # check whether it's valid:
+    if form.is_valid():
+        expanse = form.save(commit=False)
 
+        expense_entry.description = expanse.description
+        expense_entry.amount = expanse.amount
+        expense_entry.expense_date = expanse.expense_date
+        expense_entry.user = request.user
+        expense_entry.save()
+
+        return HttpResponseRedirect(reverse('budget:index', args=()))
+
+    context = {'expense_entry': expense_entry, 'form': form }
+    return render(request, 'budget/edit_expanse.html', context)
+
+@login_required
 def detail(request, pk):
     budget_entry = get_object_or_404(BudgetEntry,pk=pk)
 
@@ -41,11 +68,13 @@ def detail(request, pk):
     context = {'budget_entry': budget_entry, 'form': form, 'monthly_expanses':monthly_expanses}
     return render(request, 'budget/detail.html', context)
 
+@login_required
 def expanse(request, pk):
     budget_entry = get_object_or_404(BudgetEntry,pk=pk)
     context = {'budget_entry': budget_entry}
     return render(request, 'budget/expanses.html', context)
 
+@login_required
 def status(request, pk):
     budget_entry = get_object_or_404(BudgetEntry,pk=pk)
 

@@ -1,12 +1,11 @@
 {% extends 'budget/base.html' %}
 
 {% block content %}
-    <h2><a href="{% url 'budget:status' 1 %}"></ahref>>{{ 'Status' }}</a></h2>
     <h2><a>{{ 'Select budget entry' }}</a></h2>
     {% if budget_list %}
         <ul>
         {% for entry in budget_list %}
-            <li><b>{{ entry.description }} : </b><a href="{% url 'budget:detail' entry.id %}">  spend  </a><a>,</a><a href="{% url 'budget:expanse' entry.id %}">  details</a></li>
+            <li><b>{{ entry.description }} : </b><a href="{% url 'budget:detail' entry.id %}">  spend  </a><a>,</a><a href="{% url 'budget:status' entry.id %}">  history</a>,</a><a href="{% url 'budget:expanse' entry.id %}">  details</a></li>
         {% endfor %}
         </ul>
     {% else %}

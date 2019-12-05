@@ -11,13 +11,21 @@
         <tr>
             <th>Description</th>
             <th>Amount</th>
+            <th>Who</th>
+            <th>Payment Method</th>
+            <th>Payments</th>
             <th>When</th>
+            <th>Edit</th>
         </tr>
         {% for expanse in budget_entry.expense_set.all|dictsortreversed:"expense_date" %}
         <tr> 
             <td>{{ expanse.description }}</td>
             <td>{{ expanse.amount }}</td>
+            <td>{{ expanse.user }}</td>
+            <td>{{ expanse.paymeny_method }}</td>
+            <td>{{ expanse.payments }}</td>
             <td>{{ expanse.expense_date }}</td>
+            <td><a href="{% url 'budget:edit_expanse' expanse.id %}">edit</a></td>
         </tr>
         {% endfor %}
     </table>
