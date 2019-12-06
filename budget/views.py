@@ -36,7 +36,7 @@ def edit_expanse(request, pk):
         expense_entry.description = expanse.description
         expense_entry.amount = expanse.amount
         expense_entry.expense_date = expanse.expense_date
-        expense_entry.user = request.user
+        expense_entry.user = request.user.username
         expense_entry.save()
 
         return HttpResponseRedirect(reverse('budget:index', args=()))
@@ -62,6 +62,7 @@ def detail(request, pk):
         budget_entry.expense_set.create(
             description = expanse.description,
             expense_date = timezone.now(),
+            user = request.user.username,
             amount = expanse.amount)
 
         return HttpResponseRedirect(reverse('budget:expanse', args=(budget_entry.id,)))
