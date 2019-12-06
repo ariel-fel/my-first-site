@@ -49,3 +49,5 @@ class Expense(models.Model):
 
     def is_cash(self):
       return self.payment_method==[item[0] for item in self.PAYMENT if item[1] == 'Cash'][0]
+    def get_payment_method(self):
+      return [item[1] for item in self.PAYMENT if item[0] == self.payment_method][0]

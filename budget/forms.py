@@ -12,4 +12,4 @@ class ExpanseFormDate(forms.ModelForm):
 
     class Meta:
         model = Expense
-        fields = ('description', 'amount', 'payment_method', 'payments', 'expense_date')
+        fields = ('description', 'amount', 'user', 'payment_method', 'payments', 'expense_date')

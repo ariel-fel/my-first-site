@@ -22,7 +22,7 @@
             <td>{{ expanse.description }}</td>
             <td>{{ expanse.amount }}</td>
             <td>{{ expanse.user }}</td>
-            <td>{{ expanse.paymeny_method }}</td>
+            <td>{{ expanse.get_payment_method }}</td>
             <td>{{ expanse.payments }}</td>
             <td>{{ expanse.expense_date }}</td>
             <td><a href="{% url 'budget:edit_expanse' expanse.id %}">edit</a></td>

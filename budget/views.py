@@ -24,7 +24,7 @@ class IndexView(LoginRequiredMixin, generic.ListView):
 @login_required
 def edit_expanse(request, pk):
     expense_entry = get_object_or_404(Expense,pk=pk)
-    prefill = {'description':expense_entry.description, 'amount':expense_entry.amount, 'expense_date': expense_entry.expense_date}
+    prefill = {'description':expense_entry.description, 'amount':expense_entry.amount, 'expense_date': expense_entry.expense_date, 'user' : expense_entry.user, 'payment_method':expense_entry.payment_method, 'payments': expense_entry.payments}
     if request.method == "POST":
         form = ExpanseFormDate(request.POST,initial = prefill)
     else:
@@ -36,7 +36,9 @@ def edit_expanse(request, pk):
         expense_entry.description = expanse.description
         expense_entry.amount = expanse.amount
         expense_entry.expense_date = expanse.expense_date
-        expense_entry.user = request.user.username
+        expense_entry.user = expanse.user
+        expense_entry.payment_method = expanse.payment_method
+        expense_entry.payments = expanse.payments
         expense_entry.save()
 
         return HttpResponseRedirect(reverse('budget:index', args=()))
