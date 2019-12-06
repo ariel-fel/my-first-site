@@ -6,10 +6,10 @@ class ExpanseForm(forms.ModelForm):
 
     class Meta:
         model = Expense
-        fields = ('description', 'amount', 'paymeny_method', 'payments')
+        fields = ('description', 'amount', 'payment_method', 'payments')
 
 class ExpanseFormDate(forms.ModelForm):
 
     class Meta:
         model = Expense
-        fields = ('description', 'amount', 'paymeny_method', 'payments', 'expense_date')
+        fields = ('description', 'amount', 'payment_method', 'payments', 'expense_date')

@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1><a>Category :  </a>{{ budget_entry.description }}</h1>
-    <p><b>This month spent {{monthly_expanses}} out of {{ budget_entry.amount }}</b></p>
+    <p><b>This {{budget_cycle}} spent {{sum_expanses}} out of {{ budget_entry.amount }}</b></p>
     
     <form method="POST" class="post-form">
         {% csrf_token %}

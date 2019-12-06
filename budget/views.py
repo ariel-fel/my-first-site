@@ -7,8 +7,7 @@ from django.views import generic
 from .models import BudgetEntry, Expense
 from .forms import ExpanseForm, ExpanseFormDate
 import datetime
-from budget.date_functions import add_month, reduce_month
-from budget.expanse_reports import get_expanse_by_month, create_month_by_month_report
+from budget.expanse_reports import get_expanse_by_cycle, create_cycle_by_cycle_report
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -49,7 +48,9 @@ def edit_expanse(request, pk):
 def detail(request, pk):
     budget_entry = get_object_or_404(BudgetEntry,pk=pk)
 
-    monthly_expanses = get_expanse_by_month(budget_entry, timezone.now())
+    sum_expanses = get_expanse_by_cycle(budget_entry, timezone.now())
+    budget_cycle = budget_entry.get_cycle()
+
     if request.method == "POST":
         form = ExpanseForm(request.POST)
     else:
@@ -65,7 +66,7 @@ def detail(request, pk):
 
         return HttpResponseRedirect(reverse('budget:expanse', args=(budget_entry.id,)))
 
-    context = {'budget_entry': budget_entry, 'form': form, 'monthly_expanses':monthly_expanses}
+    context = {'budget_entry': budget_entry, 'form': form, 'sum_expanses':sum_expanses, 'budget_cycle':budget_cycle}
     return render(request, 'budget/detail.html', context)
 
 @login_required
@@ -78,7 +79,7 @@ def expanse(request, pk):
 def status(request, pk):
     budget_entry = get_object_or_404(BudgetEntry,pk=pk)
 
-    expanse_report = create_month_by_month_report(budget_entry)
+    expanse_report = create_cycle_by_cycle_report(budget_entry)
 
     context = {'budget_entry': budget_entry, 'expanse_report':expanse_report }
     return render(request, 'budget/status.html', context)
