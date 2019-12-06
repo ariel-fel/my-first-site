@@ -6,9 +6,16 @@ from django.utils import timezone
 # Create your models here.
 
 class BudgetEntry(models.Model):
+    PAYMENT_CYCLE = [
+      (1, 'Month'),
+      (2, 'Year'),
+      (3, 'Week'),]
+
     description = models.CharField(max_length=200)
-    pub_date = models.DateTimeField('date published')
+    pub_date = models.DateTimeField('date start')
+    end_date = models.DateTimeField('date end')
     amount = models.PositiveIntegerField(default=0)
+    budget_cycle = models.PositiveSmallIntegerField(choices=PAYMENT_CYCLE, default=1)
     def __str__(self):
             return self.description
 
@@ -24,7 +31,7 @@ class Expense(models.Model):
     description = models.CharField(max_length=200)
     expense_date = models.DateTimeField('date published')
     amount = models.PositiveIntegerField(default=0)
-    paymeny_method = models.PositiveSmallIntegerField(choices=PAYMENT, default=1)
+    paymeny_method = models.PositiveSmallIntegerField(choices=PAYMENT, default=2)
     payments = models.PositiveSmallIntegerField(default=1)
     user = models.CharField(max_length=200, default='ariel')
 
