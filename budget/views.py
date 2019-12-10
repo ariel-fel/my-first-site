@@ -65,6 +65,8 @@ def detail(request, pk):
             description = expanse.description,
             expense_date = timezone.now(),
             user = request.user.username,
+            payment_method = expanse.payment_method,
+            payments = expanse.payments,
             amount = expanse.amount)
 
         return HttpResponseRedirect(reverse('budget:expanse', args=(budget_entry.id,)))
