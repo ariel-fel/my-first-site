@@ -21,6 +21,15 @@ class IndexView(LoginRequiredMixin, generic.ListView):
         """Return the last five published questions."""
         return BudgetEntry.objects.order_by('-amount')
 
+
+@login_required
+def remove_expanse(request, pk):
+    expense_entry = get_object_or_404(Expense,pk=pk)
+    expense_entry.delete()
+
+    return HttpResponseRedirect(reverse('budget:index', args=()))
+    
+
 @login_required
 def edit_expanse(request, pk):
     expense_entry = get_object_or_404(Expense,pk=pk)

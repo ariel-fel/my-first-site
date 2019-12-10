@@ -16,6 +16,7 @@
             <th>Payments</th>
             <th>When</th>
             <th>Edit</th>
+            <th>Remove</th>
         </tr>
         {% for expanse in budget_entry.expense_set.all|dictsortreversed:"expense_date" %}
         <tr> 
@@ -26,6 +27,7 @@
             <td>{{ expanse.payments }}</td>
             <td>{{ expanse.expense_date }}</td>
             <td><a href="{% url 'budget:edit_expanse' expanse.id %}">edit</a></td>
+            <td><a href="{% url 'budget:remove_expanse' expanse.id %}" onclick="return confirm('Are you sure?');">remove</a></td>
         </tr>
         {% endfor %}
     </table>
